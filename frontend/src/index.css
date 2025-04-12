@@ -1,41 +1,117 @@
+/* ==========================================================================
+   1. Variables - Define reusable values for consistency.
+   ========================================================================== */
 :root {
-  --text: #0b090b;
-  --background: #ffffff;
-  --primary: #521449;
-  --secondary: #e9dad8;
-  --accent: #ec1313;
+  /* Color Palette - Ensure sufficient contrast (WCAG AA) */
+  --color-text: #0b090b; /* Primary text color */
+  --color-background: #ffffff; /* Primary background color */
+  --color-primary: #521449; /* Brand primary color */
+  --color-secondary: #e9dad8; /* Brand secondary - Use carefully for text backgrounds due to contrast */
+  --color-accent: #ec1313; /* Accent color for highlights/calls to action */
+  --color-link: var(--color-primary); /* Link color */
+  --color-link-hover: #3a0e33; /* Darker shade of primary for link hover */
+  --color-focus-ring: #4f8ac9; /* Visible focus indicator color */
 
-  --step--1: clamp(0.83rem, calc(0.77rem + 0.35vw), 1.33rem);
-  --step-0: clamp(1rem, calc(0.88rem + 0.7vw), 2rem);
-  --step-1: clamp(1.2rem, calc(0.98rem + 1.26vw), 3rem);
-  --step-2: clamp(1.44rem, calc(1.06rem + 2.15vw), 4.5rem);
-  --step-3: clamp(1.73rem, calc(1.11rem + 3.52vw), 6.75rem);
-  --step-4: clamp(2.07rem, calc(1.09rem + 5.65vw), 10.13rem);
-  --step-5: clamp(2.49rem, calc(0.93rem + 8.91vw), 15.19rem);
+  /* Typography Scale (Fluid) - Based on clamp() for responsiveness */
+  /* Consider a sans-serif for body text for better screen readability */
+  --font-family-heading: "Lora", serif;
+  --font-family-body: "Lato", sans-serif; /* Example: Using Lato as a readable sans-serif */
 
-  --space-3xs: clamp(0.25rem, calc(0.22rem + 0.18vw), 0.5rem);
-  --space-2xs: clamp(0.5rem, calc(0.44rem + 0.35vw), 1rem);
-  --space-xs: clamp(0.75rem, calc(0.66rem + 0.53vw), 1.5rem);
-  --space-s: clamp(1rem, calc(0.88rem + 0.7vw), 2rem);
-  --space-m: clamp(1.5rem, calc(1.32rem + 1.05vw), 3rem);
-  --space-l: clamp(2rem, calc(1.75rem + 1.4vw), 4rem);
-  --space-xl: clamp(3rem, calc(2.63rem + 2.11vw), 6rem);
-  --space-2xl: clamp(5rem, calc(4.39rem + 3.51vw), 10rem);
+  /* Fluid font sizes using clamp() */
+  --font-size--1: clamp(0.8rem, 0.71rem + 0.43vw, 1.13rem); /* Small text */
+  --font-size-0: clamp(1rem, 0.88rem + 0.58vw, 1.4rem); /* Base text size */
+  --font-size-1: clamp(
+    1.25rem,
+    1.08rem + 0.85vw,
+    1.88rem
+  ); /* Slightly larger */
+  --font-size-2: clamp(
+    1.56rem,
+    1.31rem + 1.25vw,
+    2.5rem
+  ); /* h4 / Subheadings */
+  --font-size-3: clamp(1.95rem, 1.59rem + 1.83vw, 3.38rem); /* h3 */
+  --font-size-4: clamp(2.44rem, 1.91rem + 2.66vw, 4.5rem); /* h2 */
+  --font-size-5: clamp(3.05rem, 2.28rem + 3.87vw, 6rem); /* h1 */
 
-  --grid-max-width: 152rem;
-  --grid-gutter: var(--space-s-2xl, clamp(1rem, calc(0.09rem + 5.2vw), 8rem));
-  --grid-columns: 12;
+  /* Spacing Scale (Fluid) - Consistent spacing units */
+  --space-xs: clamp(0.5rem, 0.44rem + 0.29vw, 0.75rem);
+  --space-s: clamp(0.75rem, 0.66rem + 0.43vw, 1.13rem);
+  --space-m: clamp(1rem, 0.88rem + 0.58vw, 1.5rem); /* Base spacing */
+  --space-l: clamp(1.5rem, 1.31rem + 0.87vw, 2.25rem);
+  --space-xl: clamp(2rem, 1.75rem + 1.16vw, 3rem);
+  --space-2xl: clamp(3rem, 2.63rem + 1.74vw, 4.5rem);
+  --space-3xl: clamp(4rem, 3.5rem + 2.32vw, 6rem);
+
+  /* Layout */
+  --layout-max-width: 75rem; /* Adjusted max-width for typical content (1200px) */
+  --layout-gutter: var(--space-m); /* Default gutter based on spacing scale */
+  --layout-grid-columns: 12;
+
+  /* Borders */
+  --border-radius-small: 3px;
+  --border-radius-medium: 6px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-default: 300ms ease-in-out;
 }
 
-.u-container {
-  max-width: var(--grid-max-width);
-  padding-inline: var(--grid-gutter);
-  margin-inline: auto;
+/* ==========================================================================
+   2. Modern CSS Reset - Improve cross-browser consistency.
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* More intuitive box model */
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
 }
 
-.u-grid {
-  display: grid;
-  gap: var(--grid-gutter);
+html {
+  font-size: 100%; /* Set base font size for rem units (usually 16px) */
+  line-height: 1.5; /* Improve readability */
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape on iOS */
+  -moz-tab-size: 4; /* Adjust tab size */
+  tab-size: 4;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-0); /* Use base font size variable */
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased; /* Smoother fonts on macOS/iOS */
+  -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Firefox */
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block; /* Remove extra space below inline images */
+  max-width: 100%; /* Make images responsive by default */
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit; /* Inherit font styles */
+  border: none; /* Remove default borders */
+  background: none; /* Remove default backgrounds */
+  color: inherit;
+}
+
+button {
+  cursor: pointer; /* Indicate interactivity */
+}
+
+ol,
+ul {
+  list-style: none; /* Remove default list styles */
 }
 
 h1,
@@ -44,24 +120,93 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lora', serif;
-  margin: 0;
-  padding: 0;
+  font-family: var(--font-family-heading);
+  font-weight: 700; /* Example: Set a default bold weight */
+  line-height: 1.2; /* Tighter line height for headings */
+  margin-bottom: var(--space-s); /* Add some space below headings */
+  color: var(--color-primary); /* Example: Use primary color for headings */
 }
 
-body,
-ul,
-li {
-  margin: 0;
-  padding: 0;
-  font-family: 'Amethysta', serif;
+/* Apply font sizes from the scale */
+h1 {
+  font-size: var(--font-size-5);
+}
+h2 {
+  font-size: var(--font-size-4);
+}
+h3 {
+  font-size: var(--font-size-3);
+}
+h4 {
+  font-size: var(--font-size-2);
+}
+h5 {
+  font-size: var(--font-size-1);
+}
+h6 {
+  font-size: var(--font-size-0);
 }
 
-body {
-  font-size: calc(0.5 * var(--step--1));
-  background-color: var(--background);
+p {
+  margin-bottom: var(--space-m); /* Add space between paragraphs */
+  max-width: 65ch; /* Improve readability by limiting line length */
 }
 
+/* ==========================================================================
+   3. Base Styles & Accessibility
+   ========================================================================== */
 a {
-  text-decoration: none;
+  color: var(--color-link);
+  text-decoration: none; /* Remove default underline */
+  transition: color var(--transition-fast); /* Smooth color transition */
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline; /* Add underline on hover for clarity */
+}
+
+/* Accessibility: Ensure visible focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(
+    --border-radius-small
+  ); /* Optional: slightly round the outline */
+}
+
+/* Hide content accessibly */
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ==========================================================================
+   4. Utility Classes
+   ========================================================================== */
+.u-container {
+  max-width: var(--layout-max-width);
+  padding-inline: var(--layout-gutter);
+  margin-inline: auto; /* Center the container */
+}
+
+.u-grid {
+  display: grid;
+  gap: var(--layout-gutter);
+  /* Consider adding grid-template-columns definitions here or in specific components */
+  /* grid-template-columns: repeat(var(--layout-grid-columns), 1fr); */
+}
+
+/* Example: Add a utility for common flexbox centering */
+.u-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

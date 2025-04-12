@@ -1,36 +1,54 @@
-const express = require('express');
-const { check } = require('express-validator');
+// routes/poster.routes.js
+const express = require("express");
+const postersController = require("../controllers/poster.controller");
+const {
+  mongoIdParamValidation,
+  posterBodyValidationRules,
+} = require("../validators/poster.validators");
+const validateRequest = require("../middleware/validateRequest");
+const authenticateToken = require("../middleware/authenticateToken"); // JWT verification
 
-const verifyJwt = require('../middleware/verifyJwt.middleware');
+const router = express.Router();
 
-const posterRouter = express.Router();
-const postersController = require('../controllers/poster.controllers');
+// --- Public Routes ---
+router.get(
+  "/:posterId",
+  mongoIdParamValidation("posterId"), // Validate posterId format
+  validateRequest,
+  postersController.getPosterByPosterId
+);
 
-posterRouter.get('/:posterId', postersController.getPosterByPosterId);
-posterRouter.get('/user/:userId', postersController.getPostersByUserId);
+router.get(
+  "/user/:userId",
+  mongoIdParamValidation("userId"), // Validate userId format
+  validateRequest,
+  postersController.getPostersByUserId
+);
 
-posterRouter.use(verifyJwt);
+// --- Protected Routes (Require Authentication) ---
+// Apply authentication middleware to all subsequent routes in this router
+router.use(authenticateToken);
 
-posterRouter.post(
-  '/',
-  [
-    check('title').not().isEmpty(),
-    check('year').isLength({ min: 4, max: 4 }),
-    check('imageUrl').not().isEmpty(),
-  ],
+router.post(
+  "/",
+  posterBodyValidationRules(), // Apply validation rules for POST
+  validateRequest, // Handle validation results
   postersController.postPoster
 );
 
-posterRouter.patch(
-  '/:posterId',
-  [
-    check('title').not().isEmpty(),
-    check('year').isLength({ min: 4, max: 4 }),
-    check('imageUrl').not().isEmpty(),
-  ],
+router.patch(
+  "/:posterId",
+  mongoIdParamValidation("posterId"), // Validate posterId format
+  posterBodyValidationRules(true), // Apply validation rules for PATCH (optional fields)
+  validateRequest, // Handle validation results
   postersController.patchPosterById
 );
 
-posterRouter.delete('/:posterId', postersController.deletePosterById);
+router.delete(
+  "/:posterId",
+  mongoIdParamValidation("posterId"), // Validate posterId format
+  validateRequest, // Handle validation results
+  postersController.deletePosterById
+);
 
-module.exports = posterRouter;
+module.exports = router;
