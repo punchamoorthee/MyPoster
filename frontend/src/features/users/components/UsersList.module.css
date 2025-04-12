@@ -1,0 +1,26 @@
+/* src/features/users/components/UsersList.module.css */
+.usersList {
+  list-style: none;
+  margin: var(--space-l) auto; /* Center list */
+  padding: 0;
+  width: 90%;
+  max-width: 50rem;
+  display: grid; /* Use grid for layout */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(15rem, 1fr)
+  ); /* Responsive grid */
+  gap: var(--space-l); /* Spacing between items */
+}
+
+.noUsersFound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  text-align: center;
+}
+
+.noUsersFound h2 {
+  color: var(--color-text); /* Or primary color */
+}

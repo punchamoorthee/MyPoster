@@ -1,0 +1,10 @@
+/* src/features/posters/pages/UpdatePosterPage.module.css */
+/* Reuse styles from NewPosterPage */
+@import "./NewPosterPage.module.css";
+
+/* Add any specific override styles for the update page if needed */
+.posterForm h2 {
+  /* Example specific style */
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--space-xs);
+}

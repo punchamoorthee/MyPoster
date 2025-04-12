@@ -1,7 +1,13 @@
-import './index.css';
-
-import App from './App';
+// src/index.js
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'; // <--- Change this import
+import './index.css';
+import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// Use the legacy ReactDOM.render API
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root') // Pass the root element directly
+);

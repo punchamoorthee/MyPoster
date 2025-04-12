@@ -1,0 +1,25 @@
+/* src/components/Navigation/MainNavigation.module.css */
+.mainNavigationTitle {
+  color: white;
+  margin: 0; /* Reset margin */
+}
+
+.mainNavigationTitle a {
+  text-decoration: none;
+  color: white;
+  font-size: var(--font-size-2); /* Adjust title size */
+}
+
+.mainNavigationLinks {
+  margin-left: auto; /* Push links to the right */
+}
+
+/* Hide main nav links on smaller screens if using a drawer */
+/* @media (max-width: 768px) {
+  .main-navigation__header-nav {
+    display: none;
+  }
+} */
+
+/* Styles for menu button if implementing a drawer */
+/* .main-navigation__menu-btn { ... } */

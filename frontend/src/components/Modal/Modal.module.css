@@ -1,0 +1,68 @@
+/* src/components/Modal/Modal.module.css */
+.modal {
+  z-index: 100; /* Above backdrop */
+  position: fixed;
+  top: 15vh; /* Adjust vertical positioning */
+  left: 10%;
+  width: 80%;
+  max-width: 40rem; /* Max width for larger screens */
+  background: var(--color-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: var(--border-radius-medium);
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.modal__header {
+  width: 100%;
+  padding: var(--space-m);
+  background: var(--color-primary);
+  color: white;
+}
+
+.modal__header h2 {
+  margin: 0;
+  color: white; /* Ensure heading color contrasts with background */
+  font-size: var(--font-size-2);
+}
+
+.modal__content {
+  padding: var(--space-m);
+}
+
+.modal__footer {
+  padding: var(--space-m);
+  text-align: right;
+}
+
+/* Transitions */
+.modal-enter {
+  transform: translateY(-10rem);
+  opacity: 0;
+}
+
+.modal-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 200ms ease-out;
+}
+
+.modal-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-exit-active {
+  transform: translateY(-10rem);
+  opacity: 0;
+  transition: all 200ms ease-out;
+}
+
+@media (max-width: 768px) {
+  /* Adjust breakpoint as needed */
+  .modal {
+    left: 5%;
+    width: 90%;
+    max-width: 90%;
+    top: 10vh;
+  }
+}

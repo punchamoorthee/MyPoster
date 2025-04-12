@@ -1,0 +1,31 @@
+/* src/features/posters/pages/NewPosterPage.module.css */
+.posterForm {
+  max-width: 40rem; /* Consistent max width */
+  margin: 2rem auto;
+  padding: var(--space-l);
+  background-color: white; /* Use white background */
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* For loading spinner overlay */
+}
+
+.posterForm h2 {
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: var(--space-l);
+}
+
+.requiredNote {
+  font-size: var(--font-size--1);
+  color: #666;
+  margin-top: var(--space-m);
+  text-align: right;
+}
+
+.formActions {
+  margin-top: var(--space-l);
+  text-align: center; /* Center buttons */
+  display: flex;
+  justify-content: center;
+  gap: var(--space-m);
+}

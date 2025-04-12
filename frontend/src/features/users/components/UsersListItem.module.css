@@ -1,0 +1,67 @@
+/* src/features/users/components/UsersListItem.module.css */
+.userItem {
+  /* Base list item styles (handled by grid layout in parent) */
+}
+
+.userItemContent {
+  padding: 0; /* Remove default card padding */
+  background-color: var(--secondary);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  height: 100%; /* Make card fill grid cell */
+}
+
+.userItemContent:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.userItemLink {
+  text-decoration: none;
+  color: inherit; /* Inherit text color */
+  display: flex;
+  align-items: center; /* Vertically align content */
+  padding: var(--space-m); /* Padding inside the link */
+  height: 100%;
+  gap: var(--space-m); /* Space between avatar and info */
+}
+
+.userItemImage {
+  flex-shrink: 0; /* Prevent avatar from shrinking */
+}
+
+.avatarPlaceholder {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-2);
+  font-weight: bold;
+}
+
+.userItemInfo {
+  text-align: left;
+  flex-grow: 1; /* Take remaining space */
+}
+
+.userItemInfo h2 {
+  font-size: var(--font-size-1);
+  margin: 0 0 var(--space-xs) 0;
+  color: var(--color-primary);
+  font-weight: bold;
+  /* Truncate long usernames */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userItemInfo h3 {
+  margin: 0;
+  font-size: var(--font-size--1);
+  font-weight: normal;
+  color: #555;
+}

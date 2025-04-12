@@ -1,116 +1,130 @@
+// src/App.js
+import React, { Suspense } from "react";
 import {
-  Navigate,
-  Route,
   BrowserRouter as Router,
+  Route,
   Routes,
-} from 'react-router-dom';
-import React, { Suspense, useCallback, useEffect, useState } from 'react';
+  Navigate,
+} from "react-router-dom";
 
-import { AuthContext } from './shared/context/auth-context';
-import Navigation from './shared/components/Navigation/Navigation';
-import Users from './user/pages/Users';
+import { AuthProvider } from "./contexts/AuthProvider"; // Import the provider component
+import { useAuth } from "./hooks/useAuth"; // Hook to check auth status easily
 
-let logoutTimer;
+import MainNavigation from "./navigation/MainNavigation"; // Adjust path
+import LoadingSpinner from "./components/UI/LoadingSpinner"; // Central loading spinner
+import styles from "./App.module.css"; // App specific styles
 
-function App() {
-  const Auth = React.lazy(() => import('./user/pages/Auth'));
-  const NewPoster = React.lazy(() => import('./posters/pages/NewPoster'));
-  const UpdatePoster = React.lazy(() => import('./posters/pages/UpdatePoster'));
-  const UserPosters = React.lazy(() => import('./posters/pages/UserPosters'));
+// Lazy load pages
+const UsersPage = React.lazy(() => import("./features/users/pages/UsersPage"));
+const AuthPage = React.lazy(() => import("./features/auth/pages/AuthPage"));
+const NewPosterPage = React.lazy(() =>
+  import("./features/posters/pages/NewPosterPage")
+);
+const UpdatePosterPage = React.lazy(() =>
+  import("./features/posters/pages/UpdatePosterPage")
+);
+const UserPostersPage = React.lazy(() =>
+  import("./features/posters/pages/UserPostersPage")
+);
 
-  const [token, setToken] = useState('');
-  const [tokenExpireDate, setTokenExpireDate] = useState();
-  const [userId, setUserId] = useState(null);
+// Helper component for protected routes
+const ProtectedRoute = ({ children }) => {
+  const { isLoggedIn } = useAuth();
+  return isLoggedIn ? children : <Navigate to="/auth" replace />;
+};
 
-  const login = useCallback((uid, token, expirationDate) => {
-    setToken(token);
-    setUserId(uid);
-    const tokenExpireDate =
-      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
-    setTokenExpireDate(tokenExpireDate);
-    localStorage.setItem(
-      'userData',
-      JSON.stringify({
-        userId: uid,
-        token: token,
-        expireDate: tokenExpireDate.toISOString(),
-      })
-    );
-  }, []);
+// Helper component for public routes (redirect if logged in) - Optional
+const PublicRoute = ({ children }) => {
+  const { isLoggedIn } = useAuth();
+  return !isLoggedIn ? children : <Navigate to="/" replace />;
+};
 
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-    setTokenExpireDate();
-    localStorage.removeItem('userData');
-  }, []);
+function AppRoutes() {
+  const { isLoggedIn } = useAuth(); // Use hook inside component needing auth status
 
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-    if (
-      storedData &&
-      storedData.token &&
-      new Date(storedData.expireDate) > new Date()
-    ) {
-      login(
-        storedData.userId,
-        storedData.token,
-        new Date(storedData.expireDate)
-      );
-    }
-  }, [login]);
-
-  useEffect(() => {
-    if (token && tokenExpireDate) {
-      const timeLeft = tokenExpireDate.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, timeLeft);
-    } else {
-      clearTimeout(logoutTimer);
-    }
-  }, [token, logout, tokenExpireDate]);
-
+  // Define routes based on login status
   let routes;
-
-  if (token) {
+  if (isLoggedIn) {
     routes = (
-      <React.Fragment>
-        <Route path='/' element={<Users />} />
-        <Route path='/:uid/posters' element={<UserPosters />} />
-        <Route element={<Navigate to='/auth' replace />} />
-        <Route path='/posters/new' element={<NewPoster />} />
-        <Route path='/*' element={<Navigate to='/' replace />} />
-        <Route path='/posters/:posterId' element={<UpdatePoster />} />
-      </React.Fragment>
+      <>
+        <Route path="/" element={<UsersPage />} />
+        <Route
+          path="/users/:userId/posters"
+          element={<UserPostersPage />}
+        />{" "}
+        {/* Match backend route param */}
+        <Route
+          path="/posters/new"
+          element={
+            <ProtectedRoute>
+              <NewPosterPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/posters/edit/:posterId"
+          element={
+            <ProtectedRoute>
+              <UpdatePosterPage />
+            </ProtectedRoute>
+          }
+        />{" "}
+        {/* Use a clear edit path */}
+        <Route path="/auth" element={<Navigate to="/" replace />} />{" "}
+        {/* Redirect logged-in users from /auth */}
+        <Route path="*" element={<Navigate to="/" replace />} />{" "}
+        {/* Catch all */}
+      </>
     );
   } else {
     routes = (
-      <React.Fragment>
-        <Route path='/' element={<Users />} />
-        <Route path='/:uid/posters' element={<UserPosters />} />
-        <Route path='/auth' element={<Auth />} />
-        <Route path='/*' element={<Navigate to='/auth' replace />} />
-      </React.Fragment>
+      <>
+        <Route path="/" element={<UsersPage />} />
+        <Route
+          path="/users/:userId/posters"
+          element={<UserPostersPage />}
+        />{" "}
+        {/* Publicly viewable */}
+        {/* Use PublicRoute helper if desired */}
+        {/* <Route path="/auth" element={ <PublicRoute><AuthPage /></PublicRoute> } /> */}
+        <Route path="/auth" element={<AuthPage />} />
+        {/* Redirect unauthenticated users trying to access protected routes */}
+        <Route path="/posters/new" element={<Navigate to="/auth" replace />} />
+        <Route
+          path="/posters/edit/:posterId"
+          element={<Navigate to="/auth" replace />}
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </>
     );
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: !!token,
-        token: token,
-        userId: userId,
-        login: login,
-        logout: logout,
-      }}>
+    <main className={styles.mainContent}>
+      <Suspense
+        fallback={
+          <div className={styles.suspenseFallback}>
+            <LoadingSpinner />
+          </div>
+        }
+      >
+        <Routes>{routes}</Routes>
+      </Suspense>
+    </main>
+  );
+}
+
+// Main App component wraps everything with Router and AuthProvider
+function App() {
+  return (
+    <AuthProvider>
+      {" "}
+      {/* Provides auth context to entire app */}
       <Router>
-        <Navigation />
-        <main>
-          <Suspense fallback={<p></p>}>
-            <Routes>{routes}</Routes>
-          </Suspense>
-        </main>
+        <MainNavigation /> {/* Navigation is always visible */}
+        <AppRoutes /> {/* Renders the routes based on auth state */}
       </Router>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

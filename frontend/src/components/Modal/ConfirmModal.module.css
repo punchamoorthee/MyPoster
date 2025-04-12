@@ -1,0 +1,26 @@
+/* src/components/Modal/ConfirmModal.module.css */
+
+/* Style the footer specifically for the confirmation modal */
+.confirmModalFooter {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: var(--space-s); /* Space between buttons */
+  padding-top: var(--space-m); /* Add some space above the buttons */
+  border-top: 1px solid var(--color-secondary); /* Optional separator */
+}
+
+/* Styles for the optional image preview */
+.imagePreview {
+  margin-top: var(--space-m); /* Space above the image */
+  text-align: center; /* Center the image */
+  max-height: 200px; /* Limit the max height of the preview area */
+  overflow: hidden; /* Hide overflow if image is too tall */
+}
+
+.imagePreview img {
+  max-width: 100%; /* Ensure image fits width */
+  max-height: 200px; /* Limit image height */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: var(--border-radius-small);
+  object-fit: contain; /* Show the whole image, scaled down */
+}

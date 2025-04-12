@@ -1,0 +1,9 @@
+/* src/components/Card/Card.module.css */
+.card {
+  background-color: var(--color-secondary); /* Or white if preferred */
+  padding: var(--space-m);
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  margin-bottom: var(--space-m); /* Space between cards */
+  overflow: hidden; /* Contain children elements like images */
+}

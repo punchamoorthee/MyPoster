@@ -1,0 +1,35 @@
+/* src/features/auth/pages/AuthPage.module.css */
+.authentication {
+  max-width: 25rem; /* Limit width */
+  margin: 4rem auto; /* Centering with top margin */
+  padding: var(--space-l); /* More padding */
+  text-align: center;
+  background-color: white; /* Use white background for contrast */
+}
+
+.authentication h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-m);
+}
+
+.authentication hr {
+  border: none;
+  border-top: 1px solid var(--color-secondary);
+  margin: var(--space-m) 0;
+}
+
+/* Style form elements */
+.authentication form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s); /* Spacing between inputs */
+  margin-bottom: var(--space-m);
+}
+
+/* Button spacing */
+.authentication button {
+  margin-top: var(--space-s);
+}
+.authentication button:last-of-type {
+  margin-top: var(--space-xs); /* Less margin for switch button */
+}

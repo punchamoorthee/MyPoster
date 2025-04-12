@@ -1,0 +1,49 @@
+/* src/components/Input/Input.module.css */
+.form-control {
+  margin-bottom: var(--space-m); /* Consistent spacing */
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size--1); /* Use font scale */
+  color: var(--color-text); /* Ensure contrast */
+}
+
+.input,
+.textarea {
+  display: block;
+  width: 100%; /* Take full width of container */
+  font: inherit;
+  border: 1px solid var(--color-secondary); /* Subtle border */
+  background: var(--color-background); /* Ensure background contrast */
+  padding: var(--space-s);
+  border-radius: var(--border-radius-medium);
+  transition: border-color var(--transition-fast);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary); /* Highlight border on focus */
+  background-color: white; /* Ensure background stays white */
+}
+
+/* Invalidation State */
+.form-control--invalid .label {
+  color: var(--color-accent);
+}
+
+.form-control--invalid .input,
+.form-control--invalid .textarea {
+  border-color: var(--color-accent);
+  background-color: #fadada; /* Subtle invalid background */
+}
+
+.error-text {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size--1);
+  color: var(--color-accent);
+  font-weight: bold;
+}

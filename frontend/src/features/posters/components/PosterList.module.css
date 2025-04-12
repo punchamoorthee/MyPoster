@@ -1,0 +1,100 @@
+/* src/features/posters/components/PosterListItem.module.css */
+.posterItem {
+  /* Base list item styling (if needed, otherwise rely on Card) */
+}
+
+.posterItemContent {
+  padding: 0; /* Remove Card's default padding if layout handles it */
+  display: flex;
+  flex-direction: row; /* Default layout */
+  gap: var(--space-m);
+  background-color: var(--secondary); /* Style the card background */
+  position: relative; /* For loading spinner overlay */
+}
+
+.posterItemImage {
+  flex: 0 0 180px; /* Fixed width for the image container */
+  max-width: 180px;
+}
+
+.posterItemImage img {
+  display: block;
+  width: 100%;
+  height: 100%; /* Make image fill container height */
+  object-fit: cover; /* Cover the area */
+  border-radius: var(--border-radius-medium) 0 0 var(--border-radius-medium); /* Round left corners */
+}
+
+.posterItemInfo {
+  flex: 1 1 auto; /* Take remaining space */
+  padding: var(--space-m); /* Padding inside info area */
+  display: flex;
+  flex-direction: column;
+}
+
+.posterItemInfo h2 {
+  margin: 0 0 var(--space-s) 0;
+  font-size: var(--font-size-2);
+  color: var(--color-primary);
+}
+
+.posterItemInfo p {
+  margin: 0;
+  font-size: var(--font-size--1);
+  color: var(--color-text);
+  line-height: 1.5;
+  /* Limit description lines if needed */
+  /* overflow: hidden;
+     display: -webkit-box;
+     -webkit-line-clamp: 3;
+     -webkit-box-orient: vertical; */
+}
+
+.posterItemActions {
+  padding: var(--space-m);
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  justify-content: flex-start; /* Align buttons top */
+  gap: var(--space-s);
+  border-left: 1px solid #ccc; /* Separator line */
+  align-self: stretch; /* Make actions take full height */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Example breakpoint */
+  .posterItemContent {
+    flex-direction: column; /* Stack vertically */
+  }
+
+  .posterItemImage {
+    flex-basis: auto; /* Let height be determined by content */
+    max-width: 100%;
+    height: 250px; /* Fixed height for image */
+    overflow: hidden; /* Hide overflow */
+  }
+
+  .posterItemImage img {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0; /* Round top corners */
+  }
+
+  .posterItemInfo {
+    padding: var(--space-m);
+    order: 2; /* Info below image */
+  }
+  .posterItemInfo h2 {
+    font-size: var(--font-size-1);
+  }
+
+  .posterItemActions {
+    flex-direction: row; /* Buttons side-by-side */
+    justify-content: center; /* Center buttons */
+    border-left: none;
+    border-top: 1px solid #ccc; /* Separator line */
+    padding: var(--space-s) var(--space-m);
+    order: 3; /* Actions at the bottom */
+    flex-wrap: wrap; /* Allow buttons to wrap */
+  }
+}

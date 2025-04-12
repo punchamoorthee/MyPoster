@@ -1,0 +1,97 @@
+/* src/components/Button/Button.module.css */
+.button {
+  font: inherit;
+  padding: var(--space-s) var(--space-m); /* Adjust padding */
+  border: 1px solid transparent; /* Base border */
+  border-radius: var(--border-radius-medium);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: background-color var(--transition-fast),
+    color var(--transition-fast), border-color var(--transition-fast);
+  margin: var(--space-xs); /* Consistent margin */
+}
+
+/* Variants */
+.button--primary {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  border-color: var(--color-primary);
+}
+.button--primary:hover,
+.button--primary:active {
+  background-color: var(--color-link-hover); /* Use existing variable */
+  border-color: var(--color-link-hover);
+}
+
+.button--secondary {
+  /* Example: Use accent for secondary action */
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  border-color: var(--color-accent);
+}
+.button--secondary:hover,
+.button--secondary:active {
+  background-color: darkred; /* Example darker shade */
+  border-color: darkred;
+}
+
+.button--inverse {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.button--inverse:hover,
+.button--inverse:active {
+  background-color: var(
+    --color-secondary
+  ); /* Use secondary background for subtle hover */
+  color: var(--color-primary);
+}
+
+.button--danger {
+  background-color: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+.button--danger:hover,
+.button--danger:active {
+  background-color: darkred;
+  border-color: darkred;
+}
+
+/* Default variant (if needed, or just style .button directly) */
+.button--default {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  border-color: var(--color-secondary);
+}
+.button--default:hover,
+.button--default:active {
+  background-color: #dcd0ce; /* Slightly darker secondary */
+  border-color: #dcd0ce;
+}
+
+/* Sizes */
+.button--size-default {
+  /* Base padding is default */
+}
+.button--size-small {
+  padding: var(--space-xs) var(--space-s);
+  font-size: var(--font-size--1);
+}
+.button--size-large {
+  padding: var(--space-m) var(--space-l);
+  font-size: var(--font-size-1);
+}
+
+/* Disabled State */
+.button--disabled,
+.button--disabled:hover,
+.button--disabled:active {
+  background-color: #ccc;
+  color: #666;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
